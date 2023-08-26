@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db";
+import { NextResponse } from 'next/server';
 
-const poll = async () => {
+export async function GET() {
+
     try {
         const now = new Date();
 
@@ -25,10 +27,12 @@ const poll = async () => {
             })
         );
 
+        NextResponse.json({ ok: true });
+
         console.log(`${expiredPolls.length} polls have been expired.`);
     } catch (error) {
         console.error('Error expiring polls:', error);
-    }
-};
 
-export default poll
+        NextResponse.json({ ok: false, error });
+    }
+}
